@@ -1,6 +1,6 @@
 {
 	"name": "@snug-lit/flare",
-	"version": "0.0.0",
+	"version": "0.1.0",
 	"exports": {
 		".": "./src/index.ts",
 		"./decorators.js": "./src/reexport/decorators.ts",
