@@ -1,0 +1,26 @@
+{
+	"name": "snug-lit",
+	"private": true,
+	"workspaces": [
+		"packages/*"
+	],
+	"scripts": {
+		"postinstall": "is-ci || husky install"
+	},
+	"packageManager": "yarn@4.3.1",
+	"devDependencies": {
+		"@snuggery/build-lit": "patch:@snuggery/build-lit@npm%3A0.2.7#~/.yarn/patches/@snuggery-build-lit-npm-0.2.7-2c230631d9.patch",
+		"@snuggery/snuggery": "^0.12.3",
+		"@snuggery/yarn": "^0.7.1",
+		"express-check-in": "^0.2.0",
+		"husky": "^9.1.4",
+		"is-ci": "^3.0.1",
+		"prettier": "^3.3.3",
+		"typescript": "~5.4.4"
+	},
+	"dependenciesMeta": {
+		"esbuild": {
+			"built": true
+		}
+	}
+}

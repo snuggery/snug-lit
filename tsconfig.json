@@ -1,0 +1,6 @@
+{
+	"references": [
+		{"path": "packages/flare/tsconfig.lib.json"},
+		{"path": "demo/tsconfig.json"}
+	]
+}

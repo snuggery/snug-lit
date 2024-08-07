@@ -1,0 +1,12 @@
+diff --git a/builders/library/schema.json b/builders/library/schema.json
+index 1bc265bb2b5782067e2acf9e146a664c69ef796e..4cd7ff07d489acc0759c74a5adfaedb322b6da3d 100644
+--- a/builders/library/schema.json
++++ b/builders/library/schema.json
+@@ -8,6 +8,7 @@
+ 				"type": "object",
+ 				"properties": {
+ 					"include": {
++						"aliases": ["$implicit"],
+ 						"oneOf": [
+ 							{"type": "string"},
+ 							{

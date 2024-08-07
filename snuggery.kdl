@@ -1,0 +1,114 @@
+// This file has a format similar to Angular CLI's angular.json, except it's a KDL file
+
+version 0
+
+cli packageManager="yarn"
+
+project "all" root="" {
+	target "build" builder="@snuggery/snuggery:glob" {
+		options {
+			include "@snug-lit/*"
+		}
+		configuration "pre-deploy" {
+			options {
+				packager "@snuggery/yarn"
+			}
+		}
+	}
+
+	target "deploy" builder="@snuggery/yarn:deploy" {
+		options {
+			useWorkspacePlugin #true
+			include "@snug-lit/*"
+			buildTarget ":build:pre-deploy"
+		}
+		configuration "next" {
+			distTag "next"
+		}
+	}
+
+	target "lint" builder="@angular-eslint/builder:lint" {
+		options {
+			eslintConfig ".eslintrc.yml"
+			ignorePath ".eslintignore"
+			lintFilePatterns {
+				- "packages/*/src/**/*.[tj]s"
+			}
+		}
+	}
+}
+
+project "demo" root="demo" projectType="application" {
+	target "build" builder="@snuggery/build-lit:application" {
+		options {
+			tsconfig "demo/tsconfig.json"
+			entryPoints {
+				- "demo/src/index.html"
+			}
+			inlineLitDecorators #true
+		}
+
+		configuration "translated" {
+			localize "en" "nl"
+		}
+	}
+
+	target "serve" builder="@snuggery/build-lit:dev-server" {
+		options {
+			applicationTarget "build"
+		}
+		configuration "e2e" {
+			localize "nl"
+		}
+	}
+
+	target "test" builder="@snuggery/build-lit:karma" {
+		options {
+			karmaConfig "demo/karma.conf.cjs"
+			tsconfig "demo/tsconfig.spec.json"
+			inlineLitDecorators #true
+		}
+	}
+
+	target "extract-i18n" builder="@snuggery/build-lit:extract-i18n" {
+		options {
+			applicationTarget "build"
+		}
+	}
+
+	target "e2e" builder="@ngx-playwright/test:run" {
+		options {
+			config "demo/playwright/playwright.config.js"
+			devServerTarget ":serve:e2e"
+		}
+		configuration "ci" {
+			forbidOnly #true
+		}
+	}
+
+	i18n {
+		targetLocales "nl" "en"
+		interchange format="xliff" {
+			xliffDir "demo/locale"
+		}
+	}
+}
+
+(abstract)project "package" {
+	target "build" builder="@snuggery/build-lit:library" {
+		options {
+			assets {
+				- "README.md"
+				- "LICENSE.md" from="."
+				- "**/*.d.ts" "**/*.json" from=(project-relative)"src" allowEmpty=#true {
+					exclude {
+						- "dist/**"
+						- "node_modules/**"
+					}
+				}
+			}
+		}
+	}
+}
+
+project "@snug-lit/flare" root="packages/flare" extends="package"

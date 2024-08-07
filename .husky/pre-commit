@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+yarn express-check-in --staged
+
+if ! git diff --cached --quiet yarn.lock; then
+	yarn dedupe --check
+fi

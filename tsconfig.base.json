@@ -1,0 +1,33 @@
+{
+	"compilerOptions": {
+		"incremental": true,
+		"composite": true,
+
+		"target": "ES2022",
+		"module": "Preserve",
+		"moduleResolution": "Bundler",
+
+		"declaration": true,
+		"declarationMap": true,
+		"sourceMap": true,
+
+		"strict": true,
+
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"noImplicitReturns": true,
+		"noFallthroughCasesInSwitch": true,
+
+		"esModuleInterop": true,
+
+		"skipLibCheck": true,
+		"forceConsistentCasingInFileNames": true,
+
+		"resolveJsonModule": true,
+
+		"noImplicitOverride": true,
+
+		"allowJs": true,
+		"checkJs": true
+	}
+}

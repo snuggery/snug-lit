@@ -1,0 +1,11 @@
+{
+	"extends": "../tsconfig.base.json",
+	"compilerOptions": {
+		"experimentalDecorators": true
+	},
+	"references": [
+		{
+			"path": "../packages/flare/tsconfig.lib.json"
+		}
+	]
+}

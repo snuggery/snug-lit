@@ -1,0 +1,34 @@
+{
+	"name": "@snug-lit/flare",
+	"version": "0.0.0",
+	"exports": {
+		".": "./src/index.ts",
+		"./decorators.js": "./src/reexport/decorators.ts",
+		"./directive-helpers.js": "./src/reexport/directive-helpers.ts",
+		"./directive.js": "./src/reexport/directive.ts",
+		"./directives/async-append.js": "./src/reexport/directives/async-append.ts",
+		"./directives/async-replace.js": "./src/reexport/directives/async-replace.ts",
+		"./directives/cache.js": "./src/reexport/directives/cache.ts",
+		"./directives/choose.js": "./src/reexport/directives/choose.ts",
+		"./directives/class-map.js": "./src/reexport/directives/class-map.ts",
+		"./directives/guard.js": "./src/reexport/directives/guard.ts",
+		"./directives/if-defined.js": "./src/reexport/directives/if-defined.ts",
+		"./directives/join.js": "./src/reexport/directives/join.ts",
+		"./directives/keyed.js": "./src/reexport/directives/keyed.ts",
+		"./directives/live.js": "./src/reexport/directives/live.ts",
+		"./directives/map.js": "./src/reexport/directives/map.ts",
+		"./directives/range.js": "./src/reexport/directives/range.ts",
+		"./directives/ref.js": "./src/reexport/directives/ref.ts",
+		"./directives/repeat.js": "./src/reexport/directives/repeat.ts",
+		"./directives/style-map.js": "./src/reexport/directives/style-map.ts",
+		"./directives/template-content.js": "./src/reexport/directives/template-content.ts",
+		"./directives/unsafe-html.js": "./src/reexport/directives/unsafe-html.ts",
+		"./directives/unsafe-svg.js": "./src/reexport/directives/unsafe-svg.ts",
+		"./directives/until.js": "./src/reexport/directives/until.ts",
+		"./directives/when.js": "./src/reexport/directives/when.ts",
+		"./package.json": "./package.json"
+	},
+	"dependencies": {
+		"lit": "^3.1.4"
+	}
+}
