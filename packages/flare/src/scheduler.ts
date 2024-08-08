@@ -61,6 +61,6 @@ class SchedulerImpl implements Scheduler {
 	}
 }
 
-const kScheduler = Symbol.for("@snug-lit/signals scheduler");
+const kScheduler = Symbol.for("@snug-lit/flare scheduler");
 export const scheduler: Scheduler = ((globalThis as any)[kScheduler] ??=
 	new SchedulerImpl());

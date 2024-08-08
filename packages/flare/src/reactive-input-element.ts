@@ -6,9 +6,9 @@ import {
 	type PropertyDeclarations,
 } from "lit";
 
-import {signal, type WritableSignal} from "./api/signal.js";
-import {computed} from "./api/computed.js";
-import {effect} from "./api/effect.js";
+import {signal, type WritableSignal} from "./signals/api/signal.js";
+import {computed} from "./signals/api/computed.js";
+import {effect} from "./signals/api/effect.js";
 import {type Mutable, ReactiveElement} from "./reactive-element.js";
 
 export type Initializer = (element: ReactiveInputElement) => void;

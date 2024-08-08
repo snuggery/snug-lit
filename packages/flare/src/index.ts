@@ -35,22 +35,26 @@ export {
 	unsafeCSS,
 } from "lit";
 
-export {type Signal, type ValueEqualityFn, isSignal} from "./api/api.js";
-export {computed, type CreateComputedOptions} from "./api/computed.js";
+export {
+	type Signal,
+	type ValueEqualityFn,
+	isSignal,
+} from "./signals/api/api.js";
+export {computed, type CreateComputedOptions} from "./signals/api/computed.js";
 export {
 	type CreateEffectOptions,
 	type EffectCleanupFn,
 	type EffectCleanupRegisterFn,
 	type EffectRef,
 	effect,
-} from "./api/effect.js";
+} from "./signals/api/effect.js";
 export {
 	type CreateSignalOptions,
 	type WritableSignal,
 	isWritableSignal,
 	signal,
-} from "./api/signal.js";
-export {untracked} from "./api/untracked.js";
+} from "./signals/api/signal.js";
+export {untracked} from "./signals/api/untracked.js";
 
 export {FlareElement} from "./flare-element.js";
 export {ReactiveElement} from "./reactive-element.js";

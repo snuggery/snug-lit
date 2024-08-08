@@ -1,13 +1,13 @@
 import type {ReactiveController, ReactiveControllerHost} from "lit";
 
+import {scheduler, SchedulableEffect} from "./scheduler.js";
 import {
 	consumerAfterComputation,
 	consumerBeforeComputation,
 	consumerDestroy,
 	REACTIVE_NODE,
 	ReactiveNode,
-} from "./primitives.js";
-import {scheduler, SchedulableEffect} from "./scheduler.js";
+} from "./signals/primitives.js";
 
 /**
  * Removes the `readonly` modifier from properties in the union K.
