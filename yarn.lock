@@ -257,7 +257,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@lit/reactive-element@npm:^2.0.4":
+"@lit/context@npm:^1.1.2":
+  version: 1.1.2
+  resolution: "@lit/context@npm:1.1.2"
+  dependencies:
+    "@lit/reactive-element": "npm:^1.6.2 || ^2.0.0"
+  checksum: 10c0/719f73cc1cd845dfa5263b7a293020af6f27d1a36415188a88297134a72b6ef1b2124902714ee4fee66bb455d17e76fb4a01a0859ae1c5cd6e218a4f93afc42f
+  languageName: node
+  linkType: hard
+
+"@lit/reactive-element@npm:^1.6.2 || ^2.0.0, @lit/reactive-element@npm:^2.0.4":
   version: 2.0.4
   resolution: "@lit/reactive-element@npm:2.0.4"
   dependencies:
@@ -299,6 +308,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@snug-lit/flare@workspace:packages/flare"
   dependencies:
+    "@lit/context": "npm:^1.1.2"
     lit: "npm:^3.1.4"
   languageName: unknown
   linkType: soft

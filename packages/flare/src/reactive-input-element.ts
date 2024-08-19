@@ -27,7 +27,7 @@ const defaultPropertyDeclaration: PropertyDeclaration = {
 	hasChanged: notEqual,
 };
 
-let getSignal: (
+export let getSignal: (
 	instance: ReactiveInputElement,
 	key: PropertyKey,
 ) => WritableSignal<unknown> | undefined;

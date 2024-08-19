@@ -7,12 +7,13 @@
  */
 
 import {ReactiveController, ReactiveControllerHost} from "lit";
-import {createWatch, Watch, WatchCleanupRegisterFn} from "../primitives.js";
+
 import {
 	scheduler,
 	type SchedulableEffect,
 	type Scheduler,
-} from "../scheduler.js";
+} from "../../scheduler.js";
+import {createWatch, Watch, WatchCleanupRegisterFn} from "../primitives.js";
 
 import {assertNotInReactiveContext} from "./asserts.js";
 
