@@ -1,6 +1,7 @@
 {
 	"references": [
-		{"path": "packages/flare/tsconfig.lib.json"},
-		{"path": "demo/tsconfig.json"}
+		{"path": "./tsconfig.packages.json"},
+		{"path": "./tsconfig.spec.json"},
+		{"path": "./demo/tsconfig.json"}
 	]
 }

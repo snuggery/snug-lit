@@ -1,6 +1,6 @@
 import {PropertyDeclaration, defaultConverter, notEqual} from "lit";
 
-import {ReactiveInputElement, getSignal} from "../../reactive-input-element.js";
+import {ReactiveInputElement, getSignal} from "../reactive-input-element.js";
 
 export * from "lit/decorators/property.js";
 

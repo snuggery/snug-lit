@@ -36,6 +36,14 @@ project "all" root="" {
 			}
 		}
 	}
+
+	target "test" builder="@snuggery/build-lit:karma" {
+		options {
+			karmaConfig "karma.conf.cjs"
+			tsconfig "tsconfig.spec.json"
+			inlineLitDecorators #true
+		}
+	}
 }
 
 project "demo" root="demo" projectType="application" {

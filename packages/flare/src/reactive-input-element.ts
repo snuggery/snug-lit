@@ -322,14 +322,14 @@ export abstract class ReactiveInputElement extends ReactiveElement {
 	 * @nocollapse
 	 */
 	protected static finalize() {
-		if (this.finalized) {
+		if (this.hasOwnProperty("finalized")) {
 			return;
 		}
 		this.finalized = true;
 		this.prepare();
 
 		// Create properties from the static properties block:
-		if (this.properties) {
+		if (this.hasOwnProperty("properties") && this.properties) {
 			const props = this.properties;
 			for (const p of Object.keys(props)) {
 				this.createProperty(p, props[p]);

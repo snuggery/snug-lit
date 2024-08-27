@@ -133,6 +133,12 @@ export abstract class ReactiveElement
 	protected abstract render(): unknown;
 
 	get updateComplete(): Promise<boolean> {
-		return Promise.reject("TODO");
+		return new Promise((resolve) => {
+			scheduler.scheduleEffect({
+				run() {
+					resolve(false);
+				},
+			});
+		});
 	}
 }

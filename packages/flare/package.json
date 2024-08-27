@@ -4,11 +4,11 @@
 	"exports": {
 		".": "./src/index.ts",
 		"./controllers/*.js": "./src/controllers/*.ts",
-		"./decorators.js": "./src/lit-api/decorators.ts",
-		"./decorators/*.js": "./src/lit-api/decorators/*.ts",
-		"./directive-helpers.js": "./src/lit-api/directive-helpers.ts",
-		"./directive.js": "./src/lit-api/directive.ts",
-		"./directives/*.js": "./src/lit-api/directives/*.ts",
+		"./decorators.js": "./src/decorators.ts",
+		"./decorators/*.js": "./src/decorators/*.ts",
+		"./directive-helpers.js": "./src/directive-helpers.ts",
+		"./directive.js": "./src/directive.ts",
+		"./directives/*.js": "./src/directives/*.ts",
 		"./package.json": "./package.json"
 	},
 	"dependencies": {

@@ -12,9 +12,16 @@
 		"@snuggery/build-lit": "patch:@snuggery/build-lit@npm%3A0.2.7#~/.yarn/patches/@snuggery-build-lit-npm-0.2.7-2c230631d9.patch",
 		"@snuggery/snuggery": "^0.12.3",
 		"@snuggery/yarn": "^0.7.1",
+		"@types/jasmine": "^5.1.4",
+		"@types/karma": "^6",
+		"@types/karma-chrome-launcher": "^3",
 		"express-check-in": "^0.2.0",
 		"husky": "^9.1.4",
 		"is-ci": "^3.0.1",
+		"jasmine-core": "^5.2.0",
+		"karma": "^6.4.4",
+		"karma-chrome-launcher": "^3.2.0",
+		"karma-jasmine": "^5.1.0",
 		"prettier": "^3.3.3",
 		"typescript": "~5.4.4"
 	},
@@ -22,5 +29,8 @@
 		"esbuild": {
 			"built": true
 		}
+	},
+	"resolutions": {
+		"esbuild@^0.21.5": "0.23.1"
 	}
 }
