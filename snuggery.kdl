@@ -23,6 +23,7 @@ project "all" root="" {
 			buildTarget ":build:pre-deploy"
 		}
 		configuration "next" {
+			prerelease "next"
 			distTag "next"
 		}
 	}
