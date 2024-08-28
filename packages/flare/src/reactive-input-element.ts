@@ -443,9 +443,10 @@ export abstract class ReactiveInputElement extends ReactiveElement {
 						? options.converter
 						: defaultConverter;
 
-			this.#signals
-				.get(property)
-				?.set(converter.fromAttribute!(value, options.type));
+			this[property as keyof this] = converter.fromAttribute!(
+				value,
+				options.type,
+			) as this[keyof this];
 		}
 	}
 }

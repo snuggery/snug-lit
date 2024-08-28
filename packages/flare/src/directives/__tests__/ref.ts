@@ -2,7 +2,6 @@ import {html} from "lit";
 
 import {FlareElement} from "../../flare-element.js";
 import {ref} from "../ref.js";
-import {getSignal} from "../../reactive-input-element.js";
 
 describe("ref()", () => {
 	class TestElement extends FlareElement {

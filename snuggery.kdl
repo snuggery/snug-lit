@@ -22,8 +22,9 @@ project "all" root="" {
 			include "@snug-lit/*"
 			buildTarget ":build:pre-deploy"
 		}
+
 		configuration "next" {
-			prerelease "next"
+			prerelease "next.%n"
 			distTag "next"
 		}
 	}

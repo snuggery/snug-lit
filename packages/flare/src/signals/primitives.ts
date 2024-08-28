@@ -6,13 +6,13 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-export {ComputedNode, createComputed} from "./primitives/computed.js";
-export {ValueEqualityFn, defaultEquals} from "./primitives/equality.js";
+export {type ComputedNode, createComputed} from "./primitives/computed.js";
+export {type ValueEqualityFn, defaultEquals} from "./primitives/equality.js";
 export {setThrowInvalidWriteToSignalError} from "./primitives/errors.js";
 export {
 	REACTIVE_NODE,
-	Reactive,
-	ReactiveNode,
+	type Reactive,
+	type ReactiveNode,
 	SIGNAL,
 	consumerAfterComputation,
 	consumerBeforeComputation,
@@ -31,8 +31,8 @@ export {
 } from "./primitives/graph.js";
 export {
 	SIGNAL_NODE,
-	SignalGetter,
-	SignalNode,
+	type SignalGetter,
+	type SignalNode,
 	createSignal,
 	runPostSignalSetFn,
 	setPostSignalSetFn,
@@ -40,8 +40,8 @@ export {
 	signalUpdateFn,
 } from "./primitives/signal.js";
 export {
-	Watch,
-	WatchCleanupFn,
-	WatchCleanupRegisterFn,
+	type Watch,
+	type WatchCleanupFn,
+	type WatchCleanupRegisterFn,
 	createWatch,
 } from "./primitives/watch.js";
