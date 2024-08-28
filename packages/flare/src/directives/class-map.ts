@@ -86,9 +86,12 @@ class ClassMapDirective extends Directive {
 
 				previousValue?.[1].destroy();
 
-				const ref = effect(() => {
-					classList.toggle(name, !!value());
-				});
+				const ref = effect(
+					() => {
+						classList.toggle(name, !!value());
+					},
+					{manualCleanup: true},
+				);
 
 				this.#previousClasses.set(name, [value, ref]);
 			} else {

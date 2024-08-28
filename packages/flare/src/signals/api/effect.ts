@@ -138,6 +138,11 @@ export interface CreateEffectOptions {
 	host?: ReactiveControllerHost;
 
 	/**
+	 * Whether to clean up the effect manually
+	 */
+	manualCleanup?: boolean;
+
+	/**
 	 * Whether the `effect` should allow writing to signals.
 	 *
 	 * Using effects to synchronize data by writing to signals can lead to confusing and potentially
@@ -149,11 +154,32 @@ export interface CreateEffectOptions {
 /**
  * Create a global `Effect` for the given reactive function.
  *
+ * The effect is registered with the given {@link ReactiveControllerHost}, so it only runs when the element is connected
+ * and stops running if the element disconnects. The effect will restart when the element is reconnected.
+ *
  * @developerPreview
  */
 export function effect(
 	effectFn: (onCleanup: EffectCleanupRegisterFn) => void,
-	options?: CreateEffectOptions,
+	options: CreateEffectOptions & {
+		host: ReactiveControllerHost;
+		manualCleanup?: false;
+	},
+): EffectRef;
+/**
+ * Create a global `Effect` for the given reactive function.
+ *
+ * The effect will continue to run until it is destroyed by calling the returned reference's `destroy` method.
+ *
+ * @developerPreview
+ */
+export function effect(
+	effectFn: (onCleanup: EffectCleanupRegisterFn) => void,
+	options: CreateEffectOptions & {host?: undefined; manualCleanup: true},
+): EffectRef;
+export function effect(
+	effectFn: (onCleanup: EffectCleanupRegisterFn) => void,
+	options: CreateEffectOptions,
 ): EffectRef {
 	typeof SNUGGERY_DEV_MODE !== "undefined" &&
 		SNUGGERY_DEV_MODE &&
@@ -163,10 +189,16 @@ export function effect(
 				"effect inside the component constructor.",
 		);
 
+	if (!options.host && !options.manualCleanup) {
+		throw new Error(
+			"effect() requires either a host to be passed or manualCleanup to be set to true",
+		);
+	}
+
 	return new EffectHandle(
 		scheduler,
 		effectFn,
-		options?.host ?? null,
-		options?.allowSignalWrites ?? false,
+		options.host ?? null,
+		options.allowSignalWrites ?? false,
 	);
 }

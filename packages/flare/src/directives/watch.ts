@@ -34,27 +34,30 @@ class WatchDirective extends AsyncDirective {
 
 		let first = true;
 		let firstValue = untracked(value);
-		this.#ref = effect(() => {
-			// read signal() before the if-check to ensure the dependency is present
-			const v = value();
+		this.#ref = effect(
+			() => {
+				// read signal() before the if-check to ensure the dependency is present
+				const v = value();
 
-			if (first) {
-				first = false;
+				if (first) {
+					first = false;
 
-				// Value hasn't changed in between the call to update() and the first run of the effect()
-				//
-				// Note we don't use the signal's equality function, so we might be
-				// overly zealous in triggering setValue() again.
-				const hasNotChanged = Object.is(v, firstValue);
-				firstValue = null;
+					// Value hasn't changed in between the call to update() and the first run of the effect()
+					//
+					// Note we don't use the signal's equality function, so we might be
+					// overly zealous in triggering setValue() again.
+					const hasNotChanged = Object.is(v, firstValue);
+					firstValue = null;
 
-				if (hasNotChanged) {
-					return;
+					if (hasNotChanged) {
+						return;
+					}
 				}
-			}
 
-			this.setValue(v);
-		});
+				this.setValue(v);
+			},
+			{manualCleanup: true},
+		);
 
 		return firstValue;
 	}
@@ -69,10 +72,13 @@ class WatchDirective extends AsyncDirective {
 
 		if (signal) {
 			this.#ref?.destroy();
-			this.#ref = effect(() => {
-				const value = signal();
-				this.setValue(value);
-			});
+			this.#ref = effect(
+				() => {
+					const value = signal();
+					this.setValue(value);
+				},
+				{manualCleanup: true},
+			);
 		}
 	}
 }
