@@ -5,7 +5,14 @@ import {
 	type ContextType,
 } from "@lit/context";
 import type {ReactiveControllerHost} from "lit";
-import {type Signal, signal, effect, untracked} from "@snug-lit/flare";
+import {
+	type Signal,
+	signal,
+	effect,
+	untracked,
+	isSignal,
+	EffectRef,
+} from "@snug-lit/flare";
 
 import {
 	type Destroyable,
@@ -46,23 +53,30 @@ export function consume<C extends Context<unknown, unknown>>(
 export function provide<C extends Context<unknown, unknown>>(
 	host: HTMLElement & ReactiveControllerHost,
 	context: C,
-	value: Signal<ContextType<C>>,
+	value: Signal<ContextType<C>> | ContextType<C>,
 ): Destroyable {
+	let initialValue, effectRef: EffectRef | undefined;
+
+	if (!isSignal(value)) {
+		initialValue = value;
+	} else {
+		initialValue = untracked(value);
+		effectRef = effect(
+			() => {
+				provider.setValue(value());
+			},
+			{host},
+		);
+	}
+
 	const provider = new ContextProvider(host, {
 		context,
-		initialValue: untracked(value),
+		initialValue,
 	});
-
-	const effectRef = effect(
-		() => {
-			provider.setValue(value());
-		},
-		{host},
-	);
 
 	return {
 		destroy() {
-			effectRef.destroy();
+			effectRef?.destroy();
 			destroyReactiveController(host, provider);
 		},
 	};
