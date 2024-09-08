@@ -83,7 +83,7 @@ class EffectHandle implements EffectRef, SchedulableEffect, ReactiveController {
 	}
 
 	#schedule(): void {
-		this.#scheduler.scheduleEffect(this);
+		this.#scheduler.schedule(this);
 	}
 
 	destroy(): void {

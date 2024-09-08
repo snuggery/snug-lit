@@ -56,6 +56,14 @@ export {
 } from "./signals/api/signal.js";
 export {untracked} from "./signals/api/untracked.js";
 
+export {afterRenderEffect} from "./render/effect.js";
+export {
+	type AfterRenderOptions,
+	type AfterRenderRef,
+	afterNextRender,
+	afterRender,
+} from "./render/hooks.js";
+
 export {FlareElement} from "./flare-element.js";
 export {ReactiveElement} from "./reactive-element.js";
 export {ReactiveInputElement} from "./reactive-input-element.js";

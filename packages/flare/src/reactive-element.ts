@@ -90,7 +90,7 @@ export abstract class ReactiveElement
 		this.#ensureNode();
 
 		// calling scheduleEffect multiple times with the same effect is a no-op, so we don't need to guard
-		scheduler.scheduleEffect(
+		scheduler.schedule(
 			(this.#effect ??= {
 				run: () => {
 					this.#performUpdate();
@@ -134,7 +134,7 @@ export abstract class ReactiveElement
 
 	get updateComplete(): Promise<boolean> {
 		return new Promise((resolve) => {
-			scheduler.scheduleEffect({
+			scheduler.schedule({
 				run() {
 					resolve(false);
 				},
