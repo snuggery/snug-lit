@@ -1,4 +1,10 @@
-import {FlareElement, html, signal} from "@snug-lit/flare";
+import {
+	FlareElement,
+	OpenFlareElement,
+	css,
+	html,
+	signal,
+} from "@snug-lit/flare";
 import {customElement, property, state} from "@snug-lit/flare/decorators.js";
 
 @customElement("demo-app")
@@ -34,6 +40,14 @@ class DemoAppElement extends FlareElement {
 				<demo-el .value=${this.signal()}></demo-el>
 				<button @click=${this.#increaseSignal}>increase</button>
 			</p>
+
+			<demo-list>
+				<ul>
+					<li>One</li>
+					<li>Two</li>
+					<li>Three</li>
+				</ul>
+			</demo-list>
 		`;
 	}
 }
@@ -46,4 +60,17 @@ class DemoElElement extends FlareElement {
 	protected override render(): unknown {
 		return html`${this.value}`;
 	}
+}
+
+@customElement("demo-list")
+class DemoListElment extends OpenFlareElement {
+	static override styles = css`
+		demo-list {
+			display: contents;
+
+			> :is(ul, ol) > li {
+				text-decoration: underline;
+			}
+		}
+	`;
 }
