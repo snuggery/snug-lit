@@ -65,5 +65,6 @@ export {
 } from "./render/hooks.js";
 
 export {FlareElement} from "./flare-element.js";
+export {OpenFlareElement} from "./open-flare-element.js";
 export {ReactiveElement} from "./reactive-element.js";
 export {ReactiveInputElement} from "./reactive-input-element.js";

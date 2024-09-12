@@ -1,15 +1,25 @@
 import {
-	adoptStyles,
-	CSSResultGroup,
-	CSSResultOrNative,
-	getCompatibleStyle,
-	nothing,
+	type CSSResultGroup,
+	type CSSResultOrNative,
 	render,
-	RenderOptions,
+	type RenderOptions,
+	type RootPart,
+	getCompatibleStyle,
+	noChange,
 } from "lit";
 
 import {ReactiveInputElement} from "./reactive-input-element.js";
+import {adoptStyles} from "./utils/styles.js";
 
+/**
+ * Base element class that manages element properties and attributes, and
+ * renders a lit-html template.
+ *
+ * To define a component, subclass `FlareElement` and implement a
+ * `render` method to provide the component's template. Define properties
+ * using the {@linkcode ReactiveInputElement.properties properties} property or the
+ * {@linkcode property} decorator.
+ */
 export abstract class FlareElement extends ReactiveInputElement {
 	static get shadowRootOptions(): ShadowRootInit {
 		return {mode: "open"};
@@ -54,19 +64,28 @@ export abstract class FlareElement extends ReactiveInputElement {
 	protected static override finalize(): void {
 		super.finalize();
 
-		this.elementStyles = finalizeStyles(this.styles);
+		if (!this.hasOwnProperty("elementStyles")) {
+			this.elementStyles = finalizeStyles(this.styles);
+		}
 	}
 
 	#renderRoot?: HTMLElement | ShadowRoot;
+	#renderedPart?: RootPart;
 
-	readonly #renderOptions: RenderOptions = {
+	readonly renderOptions: RenderOptions = {
 		host: this,
 	};
 
 	override connectedCallback(): void {
-		this.#renderOptions.isConnected = true;
+		this.#renderedPart?.setConnected(true);
 
 		super.connectedCallback();
+	}
+
+	override disconnectedCallback(): void {
+		super.disconnectedCallback();
+
+		this.#renderedPart?.setConnected(false);
 	}
 
 	protected createRenderRoot(): HTMLElement | ShadowRoot {
@@ -79,23 +98,22 @@ export abstract class FlareElement extends ReactiveInputElement {
 			(this.constructor as typeof FlareElement).elementStyles,
 		);
 
-		// adoptStyles might have added style elements to the renderRoot, render any
-		// content before that
-		this.#renderOptions.renderBefore = renderRoot.firstChild;
-
 		return renderRoot;
 	}
 
 	protected override applyRenderResult(result: unknown): void {
-		render(
-			result,
-			(this.#renderRoot ??= this.createRenderRoot()),
-			this.#renderOptions,
-		);
+		if (this.#renderRoot == null) {
+			this.#renderRoot = this.createRenderRoot();
+
+			// if the render root wasn't defined yet this must be the first render
+			this.renderOptions.isConnected = this.isConnected;
+		}
+
+		this.#renderedPart = render(result, this.#renderRoot, this.renderOptions);
 	}
 
 	protected override render(): unknown {
-		return nothing;
+		return noChange;
 	}
 }
 
