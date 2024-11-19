@@ -1,13 +1,14 @@
 import type {ReactiveController, ReactiveControllerHost} from "lit";
 
-import {scheduler, SchedulableEffect} from "./scheduler.js";
+import {scheduler, type SchedulableEffect} from "./scheduler.js";
 import {
 	consumerAfterComputation,
 	consumerBeforeComputation,
 	consumerDestroy,
 	REACTIVE_NODE,
-	ReactiveNode,
+	type ReactiveNode,
 } from "./signals/primitives.js";
+import {type Deferred, deferred} from "./utils/deferred.js";
 
 /**
  * Removes the `readonly` modifier from properties in the union K.
@@ -28,6 +29,8 @@ export abstract class ReactiveElement
 
 	#node: ReactiveNode | null = null;
 	#effect?: SchedulableEffect;
+
+	#updateComplete: Deferred<false> | null = null;
 
 	#ensureNode() {
 		if (this.#node) {
@@ -87,8 +90,6 @@ export abstract class ReactiveElement
 	}
 
 	requestUpdate(): void {
-		this.#ensureNode();
-
 		// calling scheduleEffect multiple times with the same effect is a no-op, so we don't need to guard
 		scheduler.schedule(
 			(this.#effect ??= {
@@ -100,31 +101,36 @@ export abstract class ReactiveElement
 	}
 
 	#performUpdate() {
-		if (!this.#node) {
-			return;
-		}
-
 		for (const ctrl of this.#controllers) {
 			ctrl.hostUpdate?.();
 		}
 
-		// Mark clean so we can track whatever changes after this render
-		this.#node.dirty = false;
+		if (this.isConnected && (this.#node == null || this.#node.dirty)) {
+			this.#ensureNode();
 
-		if (this.isConnected) {
-			const previousConsumer = consumerBeforeComputation(this.#node);
-			let renderResult: unknown;
-			try {
-				renderResult = this.render();
-			} finally {
-				consumerAfterComputation(this.#node, previousConsumer);
+			// Mark clean so we can track whatever changes after this render
+			this.#node!.dirty = false;
+
+			if (this.isConnected) {
+				const previousConsumer = consumerBeforeComputation(this.#node);
+				let renderResult: unknown;
+				try {
+					renderResult = this.render();
+				} finally {
+					consumerAfterComputation(this.#node, previousConsumer);
+				}
+
+				this.applyRenderResult(renderResult);
 			}
-
-			this.applyRenderResult(renderResult);
 		}
 
 		for (const ctrl of this.#controllers) {
 			ctrl.hostUpdated?.();
+		}
+
+		if (this.#updateComplete) {
+			this.#updateComplete.resolve(false);
+			this.#updateComplete = null;
 		}
 	}
 
@@ -133,12 +139,6 @@ export abstract class ReactiveElement
 	protected abstract render(): unknown;
 
 	get updateComplete(): Promise<boolean> {
-		return new Promise((resolve) => {
-			scheduler.schedule({
-				run() {
-					resolve(false);
-				},
-			});
-		});
+		return (this.#updateComplete ??= deferred()).promise;
 	}
 }

@@ -404,20 +404,17 @@ export abstract class ReactiveInputElement extends ReactiveElement {
 					converter.toAttribute!(propSignal()),
 				);
 
-				effect(
-					() => {
-						const attrVal = attributeValue() as string | null | undefined;
+				effect(this, () => {
+					const attrVal = attributeValue() as string | null | undefined;
 
-						this.#reflectingProperty = key;
-						if (attrVal == null) {
-							this.removeAttribute(attr);
-						} else {
-							this.setAttribute(attr, attrVal);
-						}
-						this.#reflectingProperty = null;
-					},
-					{host: this},
-				);
+					this.#reflectingProperty = key;
+					if (attrVal == null) {
+						this.removeAttribute(attr);
+					} else {
+						this.setAttribute(attr, attrVal);
+					}
+					this.#reflectingProperty = null;
+				});
 			}
 		}
 	}

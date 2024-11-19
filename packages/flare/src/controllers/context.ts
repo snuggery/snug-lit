@@ -61,12 +61,9 @@ export function provide<C extends Context<unknown, unknown>>(
 		initialValue = value;
 	} else {
 		initialValue = untracked(value);
-		effectRef = effect(
-			() => {
-				provider.setValue(value());
-			},
-			{host},
-		);
+		effectRef = effect(host, () => {
+			provider.setValue(value());
+		});
 	}
 
 	const provider = new ContextProvider(host, {

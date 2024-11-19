@@ -9,7 +9,8 @@ import {
 } from "lit/directive.js";
 
 import {Signal, isSignal} from "../signals/api/api.js";
-import {EffectRef, effect} from "../signals/api/effect.js";
+import type {EffectRef} from "../signals/api/effect.js";
+import {microtaskEffect} from "../signals/api/microtask-effect.js";
 
 /**
  * A key-value set of class names to truthy values.
@@ -86,12 +87,9 @@ class ClassMapDirective extends Directive {
 
 				previousValue?.[1].destroy();
 
-				const ref = effect(
-					() => {
-						classList.toggle(name, !!value());
-					},
-					{manualCleanup: true},
-				);
+				const ref = microtaskEffect(() => {
+					classList.toggle(name, !!value());
+				});
 
 				this.#previousClasses.set(name, [value, ref]);
 			} else {

@@ -42,12 +42,12 @@ export {
 } from "./signals/api/api.js";
 export {computed, type CreateComputedOptions} from "./signals/api/computed.js";
 export {
-	type CreateEffectOptions,
 	type EffectCleanupFn,
 	type EffectCleanupRegisterFn,
 	type EffectRef,
 	effect,
 } from "./signals/api/effect.js";
+export {microtaskEffect} from "./signals/api/microtask-effect.js";
 export {
 	type CreateSignalOptions,
 	type WritableSignal,

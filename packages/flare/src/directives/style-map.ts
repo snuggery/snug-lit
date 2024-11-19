@@ -9,7 +9,8 @@ import {
 } from "lit/directive.js";
 
 import {Signal, isSignal} from "../signals/api/api.js";
-import {EffectRef, effect} from "../signals/api/effect.js";
+import type {EffectRef} from "../signals/api/effect.js";
+import {microtaskEffect} from "../signals/api/microtask-effect.js";
 
 /**
  * A key-value set of CSS properties and values.
@@ -88,31 +89,28 @@ class StyleMapDirective extends Directive {
 
 				previousValue?.[1].destroy();
 
-				const ref = effect(
-					() => {
-						const currentValue = value();
-						const isImportant =
-							typeof currentValue === "string" &&
-							currentValue.endsWith(importantFlag);
-						if (name.includes("-") || isImportant) {
-							if (currentValue == null) {
-								style.removeProperty(name);
-							} else {
-								style.setProperty(
-									name,
-									isImportant
-										? (currentValue as string).slice(0, flagTrim)
-										: (currentValue as string),
-									isImportant ? important : "",
-								);
-							}
+				const ref = microtaskEffect(() => {
+					const currentValue = value();
+					const isImportant =
+						typeof currentValue === "string" &&
+						currentValue.endsWith(importantFlag);
+					if (name.includes("-") || isImportant) {
+						if (currentValue == null) {
+							style.removeProperty(name);
 						} else {
-							// eslint-disable-next-line @typescript-eslint/no-explicit-any
-							(style as any)[name] = currentValue;
+							style.setProperty(
+								name,
+								isImportant
+									? (currentValue as string).slice(0, flagTrim)
+									: (currentValue as string),
+								isImportant ? important : "",
+							);
 						}
-					},
-					{manualCleanup: true},
-				);
+					} else {
+						// eslint-disable-next-line @typescript-eslint/no-explicit-any
+						(style as any)[name] = currentValue;
+					}
+				});
 
 				this.#previousProperties.set(name, [value, ref]);
 			} else if (value != null) {
