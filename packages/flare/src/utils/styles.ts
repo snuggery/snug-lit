@@ -14,9 +14,10 @@ export function adoptStyles(
 	styles: Array<CSSResultOrNative>,
 ) {
 	if (supportsAdoptingStyleSheets) {
-		scope.adoptedStyleSheets = styles.map((s) =>
-			s instanceof CSSStyleSheet ? s : s.styleSheet!,
-		);
+		scope.adoptedStyleSheets = [
+			...scope.adoptedStyleSheets,
+			...styles.map((s) => (s instanceof CSSStyleSheet ? s : s.styleSheet!)),
+		];
 
 		return;
 	}
