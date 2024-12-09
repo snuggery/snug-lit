@@ -2,9 +2,7 @@ import {ElementPart, nothing} from "lit";
 import {DirectiveResult, directive} from "lit/directive.js";
 import {AsyncDirective} from "lit/async-directive.js";
 
-import {Signal} from "../signals/api/api.js";
-import {WritableSignal, signal} from "../signals/api/signal.js";
-import {untracked} from "../signals/api/untracked.js";
+import {type Signal, type WritableSignal, signal, untracked} from "../index.js";
 
 class RefDirective extends AsyncDirective {
 	#signal?: WritableSignal<Element | null>;

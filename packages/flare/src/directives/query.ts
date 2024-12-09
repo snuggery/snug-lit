@@ -6,9 +6,7 @@ import type {
 	Part,
 } from "lit/directive.js";
 
-import type {Signal} from "../signals/api/api.js";
-import {WritableSignal, signal} from "../signals/api/signal.js";
-import {computed} from "../signals/api/computed.js";
+import {type Signal, type WritableSignal, computed, signal} from "../index.js";
 
 export interface QueryAssignedNodesOptions extends AssignedNodesOptions {
 	/**

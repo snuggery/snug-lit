@@ -8,9 +8,12 @@ import {
 	directive,
 } from "lit/directive.js";
 
-import {Signal, isSignal} from "../signals/api/api.js";
-import type {EffectRef} from "../signals/api/effect.js";
-import {microtaskEffect} from "../signals/api/microtask-effect.js";
+import {
+	type EffectRef,
+	type Signal,
+	isSignal,
+	microtaskEffect,
+} from "../index.js";
 
 /**
  * A key-value set of CSS properties and values.

@@ -5,10 +5,13 @@ import {
 	directive,
 } from "lit/async-directive.js";
 
-import {isSignal, type Signal} from "../signals/api/api.js";
-import {type EffectRef} from "../signals/api/effect.js";
-import {untracked} from "../signals/api/untracked.js";
-import {microtaskEffect} from "../signals/api/microtask-effect.js";
+import {
+	type EffectRef,
+	type Signal,
+	isSignal,
+	microtaskEffect,
+	untracked,
+} from "../index.js";
 
 class WatchDirective extends AsyncDirective {
 	#ref?: EffectRef;
