@@ -29,6 +29,8 @@ describe("effect", () => {
 			lastSeenValue = source();
 		});
 
+		expect(lastSeenValue).toBe(-1);
+
 		await element.updateComplete;
 
 		expect(lastSeenValue).toBe(0);

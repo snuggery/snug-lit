@@ -30,6 +30,16 @@ class MicrotaskEffectHandle implements EffectRef, SchedulableEffect {
 
 	constructor(effectFn: (onCleanup: EffectCleanupRegisterFn) => void) {
 		this.#effectFn = effectFn;
+
+		this.#watcher = createWatch(
+			(onCleanup) => this.#runEffect(onCleanup),
+			() => {
+				scheduler.schedule(this);
+			},
+			true,
+		);
+
+		this.#watcher.notify();
 	}
 
 	run(): void {
@@ -53,22 +63,6 @@ class MicrotaskEffectHandle implements EffectRef, SchedulableEffect {
 
 		this.#watcher?.destroy();
 		this.#watcher = null;
-	}
-
-	hostConnected(): void {
-		if (this.#watcher) {
-			return;
-		}
-
-		this.#watcher = createWatch(
-			(onCleanup) => this.#runEffect(onCleanup),
-			() => {
-				scheduler.schedule(this);
-			},
-			true,
-		);
-
-		this.#watcher.notify();
 	}
 }
 
