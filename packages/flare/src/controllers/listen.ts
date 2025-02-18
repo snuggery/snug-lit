@@ -1,7 +1,5 @@
 import {ReactiveController, ReactiveControllerHost} from "lit";
 
-import {destroyReactiveController} from "../utils/destroyable.js";
-
 export interface ListenOptions extends AddEventListenerOptions {
 	host?: ReactiveControllerHost;
 }
@@ -65,7 +63,8 @@ export function listen<T extends EventTarget>(
 
 	if (options.once) {
 		actualListener = function (this: T, event: Event) {
-			destroyReactiveController(host, controller);
+			controller.hostDisconnected?.();
+			host.removeController(controller);
 
 			if (typeof listener === "function") {
 				listener.call(this, event);

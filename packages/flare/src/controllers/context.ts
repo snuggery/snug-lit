@@ -4,7 +4,7 @@ import {
 	type Context,
 	type ContextType,
 } from "@lit/context";
-import type {ReactiveControllerHost} from "lit";
+import type {ReactiveController, ReactiveControllerHost} from "lit";
 import {
 	type Signal,
 	signal,
@@ -14,30 +14,28 @@ import {
 	EffectRef,
 } from "@snug-lit/flare";
 
-import {
-	type Destroyable,
-	destroyReactiveController,
-	makeDestroyable,
-} from "../utils/destroyable";
-
 export * from "@lit/context";
 
 export interface ConsumeOptions {
 	subscribe?: boolean;
 }
 
+export interface ConsumeSignal<T> extends Signal<T | undefined> {
+	destroy(): void;
+}
+
 export function consume<C extends Context<unknown, unknown>>(
 	host: HTMLElement & ReactiveControllerHost,
 	context: C,
-	options: ConsumeOptions,
-): Signal<ContextType<C> | undefined> & Destroyable {
-	const result = signal<ContextType<C> | undefined>(undefined);
+	options: ConsumeOptions = {},
+): ConsumeSignal<ContextType<C>> {
+	const value = signal<ContextType<C> | undefined>(undefined);
 
 	const consumer = new ContextConsumer(host, {
 		...options,
 		context,
-		callback(value, dispose) {
-			result.set(value);
+		callback(v, dispose) {
+			value.set(v);
 
 			if (!options.subscribe) {
 				dispose?.();
@@ -45,16 +43,24 @@ export function consume<C extends Context<unknown, unknown>>(
 		},
 	});
 
-	return makeDestroyable(result.asReadonly(), () =>
-		destroyReactiveController(host, consumer),
-	);
+	const result = value.asReadonly() as ConsumeSignal<ContextType<C>>;
+	result.destroy = () => {
+		consumer.hostDisconnected?.();
+		host.removeController(consumer);
+	};
+
+	return result;
+}
+
+export interface ProvideRef {
+	destroy(): void;
 }
 
 export function provide<C extends Context<unknown, unknown>>(
 	host: HTMLElement & ReactiveControllerHost,
 	context: C,
 	value: Signal<ContextType<C>> | ContextType<C>,
-): Destroyable {
+): ProvideRef {
 	let initialValue, effectRef: EffectRef | undefined;
 
 	if (!isSignal(value)) {
@@ -74,7 +80,9 @@ export function provide<C extends Context<unknown, unknown>>(
 	return {
 		destroy() {
 			effectRef?.destroy();
-			destroyReactiveController(host, provider);
+
+			(provider as ReactiveController)?.hostDisconnected?.();
+			host.removeController(provider);
 		},
 	};
 }

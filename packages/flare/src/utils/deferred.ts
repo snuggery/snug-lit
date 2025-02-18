@@ -5,6 +5,7 @@ export interface Deferred<T> {
 	reject: (error: unknown) => void;
 }
 
+// Replace with Promise.withResolvers() in some distant future
 export function deferred<T>(): Deferred<T> {
 	let resolve: (value: T | PromiseLike<T>) => void;
 	let reject: (error: unknown) => void;
