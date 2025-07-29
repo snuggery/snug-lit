@@ -31,6 +31,15 @@ export {
 	setActiveConsumer,
 } from "./primitives/graph.js";
 export {
+	LINKED_SIGNAL_NODE,
+	type ComputationFn,
+	type LinkedSignalGetter,
+	type LinkedSignalNode,
+	createLinkedSignal,
+	linkedSignalSetFn,
+	linkedSignalUpdateFn,
+} from "./primitives/linked-signal.js";
+export {
 	SIGNAL_NODE,
 	type SignalGetter,
 	type SignalNode,

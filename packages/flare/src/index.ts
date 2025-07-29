@@ -47,6 +47,7 @@ export {
 	type EffectRef,
 	effect,
 } from "./signals/api/effect.js";
+export {linkedSignal} from "./signals/api/linked-signal.js";
 export {microtaskEffect} from "./signals/api/microtask-effect.js";
 export {
 	type CreateSignalOptions,
