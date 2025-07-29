@@ -108,7 +108,7 @@ project "demo" root="demo" projectType="application" {
 	target "build" builder="@snuggery/build-lit:library" {
 		options {
 			assets {
-				- "README.md"
+				- "README.md" "NOTICE.md"
 				- "LICENSE.md" from="."
 				- "**/*.d.ts" "**/*.json" from=(project-relative)"src" allowEmpty=#true {
 					exclude {

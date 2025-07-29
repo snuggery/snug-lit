@@ -1,6 +1,13 @@
 {
 	"name": "@snug-lit/flare",
 	"version": "0.2.0",
+	"license": "MIT",
+	"description": "Lit-like custom element library using Angular-like signals",
+	"author": {
+		"name": "Bram Gotink",
+		"url": "https://bram.dev",
+		"email": "bram@gotink.me"
+	},
 	"exports": {
 		".": "./src/index.ts",
 		"./controllers/*.js": "./src/controllers/*.ts",
