@@ -401,7 +401,7 @@ export abstract class ReactiveInputElement extends ReactiveElement {
 						: defaultConverter;
 
 				const attributeValue = computed(() =>
-					converter.toAttribute!(propSignal()),
+					converter.toAttribute!(propSignal(), prop.type),
 				);
 
 				effect(this, () => {
